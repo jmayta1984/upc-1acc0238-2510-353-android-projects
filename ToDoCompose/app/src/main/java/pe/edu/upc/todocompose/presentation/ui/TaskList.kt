@@ -29,7 +29,7 @@ import pe.edu.upc.todocompose.domain.model.Task
 @Composable
 fun TaskList(
     modifier: Modifier = Modifier,
-    tasks: List<Task> = listOf(Task("Estudiar", "iOS")),
+    tasks: List<Task> = listOf(),
     onAdd: () -> Unit = {}
 ) {
 
