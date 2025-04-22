@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.filterNot
 import pe.edu.upc.todocompose.domain.model.Task
 import pe.edu.upc.todocompose.domain.repository.TaskRepository
 
-class TaskRepositoryImpl: TaskRepository {
+class TaskRepositoryImpl : TaskRepository {
 
     private var _tasks = MutableStateFlow<List<Task>>(emptyList())
     val tasks: StateFlow<List<Task>> = _tasks
 
     override fun getAll(): Flow<List<Task>> {
-        return _tasks
+        return tasks
     }
 
     override fun addTask(task: Task) {
@@ -21,11 +21,14 @@ class TaskRepositoryImpl: TaskRepository {
     }
 
     override fun deleteTask(id: Int) {
-        _tasks.value = _tasks.value.filterNot {
+        _tasks.value = tasks.value.filterNot {
             it.id == id
         }
     }
 
-    override fun updateTask() {
+    override fun updateTask(task: Task) {
+        _tasks.value = tasks.value.map {
+            if (it.id == task.id) task else it
+        }
     }
 }

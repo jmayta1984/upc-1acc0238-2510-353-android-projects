@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -28,29 +26,33 @@ import pe.edu.upc.todocompose.domain.model.Task
 @Composable
 fun TaskDetail(
     modifier: Modifier = Modifier,
+    task: Task? = null,
     onSave: (Task) -> Unit = {},
     onDelete: (Int) -> Unit = {},
     onBack: () -> Unit = {}
 ) {
 
     val title = remember {
-        mutableStateOf("")
+        mutableStateOf(task?.title ?: "")
     }
 
     val description = remember {
-        mutableStateOf("")
+        mutableStateOf(task?.description ?: "")
     }
 
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    val task = Task(
-                        id = (0..999).random(),
-                        title = title.value,
-                        description = description.value
+
+                    val id = task?.id ?: (0..999).random()
+                    onSave(
+                        Task(
+                            id = id,
+                            title = title.value,
+                            description = description.value
+                        )
                     )
-                    onSave(task)
                     onBack()
                 }
             ) {
@@ -92,8 +94,12 @@ fun TaskDetail(
             )
 
             OutlinedButton(
+                enabled = task != null,
                 onClick = {
-                    onDelete(0)
+                    task?.id?.let {
+                        onDelete(it)
+                        onBack()
+                    }
                 }
             ) {
                 Text("Delete task")

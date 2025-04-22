@@ -1,6 +1,5 @@
 package pe.edu.upc.todocompose.presentation.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,7 +29,9 @@ import pe.edu.upc.todocompose.domain.model.Task
 fun TaskList(
     modifier: Modifier = Modifier,
     tasks: List<Task> = listOf(),
-    onAdd: () -> Unit = {}
+    onAdd: () -> Unit = {},
+    onSelect: (Task) -> Unit = {},
+    onCheck: (Task) -> Unit = {}
 ) {
 
 
@@ -48,20 +49,29 @@ fun TaskList(
         LazyColumn(modifier = modifier.padding(padding))
         {
             items(tasks) { task ->
-                TaskListItem(task = task)
+                TaskListItem(task = task, onSelect =  onSelect, onCheck = onCheck)
             }
         }
     }
 }
 
 @Composable
-fun TaskListItem(task: Task) {
+fun TaskListItem(
+    task: Task,
+    onSelect: (Task) -> Unit,
+    onCheck: (Task) -> Unit
+) {
 
     val isCompleted = remember {
         mutableStateOf(task.isCompleted)
     }
 
-    Card(modifier = Modifier.padding(8.dp)) {
+    Card(
+        modifier = Modifier.padding(8.dp),
+        onClick = {
+            onSelect(task)
+        }
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -70,6 +80,8 @@ fun TaskListItem(task: Task) {
         ) {
             Checkbox(checked = isCompleted.value, onCheckedChange = {
                 isCompleted.value = it
+                task.isCompleted = it
+                onCheck(task)
             })
             Column {
                 Text(task.title, fontWeight = FontWeight.Bold)
