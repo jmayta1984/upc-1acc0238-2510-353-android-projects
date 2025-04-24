@@ -14,6 +14,7 @@ import pe.edu.upc.todocompose.domain.usecase.AddTaskUseCase
 import pe.edu.upc.todocompose.domain.usecase.DeleteTaskUseCase
 import pe.edu.upc.todocompose.domain.usecase.GetAllUseCase
 import pe.edu.upc.todocompose.domain.usecase.UpdateTaskUseCase
+import pe.edu.upc.todocompose.presentation.viewmodel.TaskListViewModel
 
 @Preview
 @Composable
@@ -26,7 +27,9 @@ fun Home() {
     val deleteTaskUseCase = DeleteTaskUseCase(repository)
     val updateTaskUseCase = UpdateTaskUseCase(repository)
 
-    val tasks = getAllUseCase().collectAsState(emptyList())
+    val viewModel =
+        TaskListViewModel(getAllUseCase, addTaskUseCase, updateTaskUseCase, deleteTaskUseCase)
+    val tasks = viewModel.getAll().collectAsState(emptyList())
 
     val selectedTask = remember {
         mutableStateOf<Task?>(null)
