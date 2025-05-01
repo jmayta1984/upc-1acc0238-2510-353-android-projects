@@ -10,6 +10,7 @@ import pe.edu.upc.mealscompose.ui.theme.MealsComposeTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
         setContent {
             MealsComposeTheme {
