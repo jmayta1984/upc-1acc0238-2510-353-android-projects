@@ -28,7 +28,7 @@ import pe.edu.upc.mealscompose.domain.model.Category
 import pe.edu.upc.mealscompose.presentation.viewmodel.CategoryListViewModel
 
 @Composable
-fun CategoryList(viewModel: CategoryListViewModel = CategoryListViewModel()) {
+fun CategoryListView(viewModel: CategoryListViewModel = CategoryListViewModel()) {
     viewModel.getCategories()
 
     val categories = viewModel.categories.collectAsState()

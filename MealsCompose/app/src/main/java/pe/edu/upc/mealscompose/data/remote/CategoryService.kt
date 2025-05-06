@@ -9,4 +9,5 @@ interface CategoryService {
     @GET("categories.php")
     suspend fun getCategories(): Response<CategoriesResponse>
 
+
 }
