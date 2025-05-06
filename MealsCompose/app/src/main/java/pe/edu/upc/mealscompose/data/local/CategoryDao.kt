@@ -17,4 +17,7 @@ interface CategoryDao {
 
     @Delete
     suspend fun deleteCategory(category: CategoryEntity)
+
+    @Query("select * from categories where id =:id")
+    suspend fun fetchById(id: String): List<CategoryEntity>
 }
