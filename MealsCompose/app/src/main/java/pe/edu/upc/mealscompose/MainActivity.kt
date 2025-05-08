@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import pe.edu.upc.mealscompose.presentation.view.CategoryListView
+import pe.edu.upc.mealscompose.presentation.view.Home
 import pe.edu.upc.mealscompose.ui.theme.MealsComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MealsComposeTheme {
-                CategoryListView()
+                Home()
             }
         }
     }

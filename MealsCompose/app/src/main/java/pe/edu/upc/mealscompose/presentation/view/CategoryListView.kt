@@ -28,7 +28,10 @@ import pe.edu.upc.mealscompose.domain.model.Category
 import pe.edu.upc.mealscompose.presentation.viewmodel.CategoryListViewModel
 
 @Composable
-fun CategoryListView(viewModel: CategoryListViewModel = CategoryListViewModel()) {
+fun CategoryListView(
+    viewModel: CategoryListViewModel = CategoryListViewModel(),
+    onTap: (Category) -> Unit
+) {
     viewModel.getCategories()
 
     val categories = viewModel.categories.collectAsState()
@@ -36,7 +39,10 @@ fun CategoryListView(viewModel: CategoryListViewModel = CategoryListViewModel())
     Scaffold { padding ->
         LazyColumn(modifier = Modifier.padding(padding)) {
             items(categories.value) { category ->
-                CategoryListItemView(category) { isFavorite ->
+                CategoryListItemView(
+                    category = category,
+                    onTap = onTap
+                ) { isFavorite ->
                     if (isFavorite) {
                         viewModel.insertCategory(category)
                     } else {
@@ -51,6 +57,7 @@ fun CategoryListView(viewModel: CategoryListViewModel = CategoryListViewModel())
 @Composable
 fun CategoryListItemView(
     category: Category,
+    onTap: (Category) -> Unit,
     toggleFavorite: (Boolean) -> Unit
 ) {
 
@@ -61,7 +68,10 @@ fun CategoryListItemView(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(8.dp),
+        onClick = {
+            onTap(category)
+        }
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
