@@ -32,9 +32,7 @@ fun ArticleSearchView(
     onTap: (Article) -> Unit
 ) {
 
-    val description = remember {
-        mutableStateOf("")
-    }
+    val description = viewModel.description.collectAsState()
 
     val articles = viewModel.articles.collectAsState()
 
@@ -45,13 +43,13 @@ fun ArticleSearchView(
     ) {
         OutlinedTextField(
             description.value,
-            onValueChange = { description.value = it },
+            onValueChange = { viewModel.updateDescription(it) },
             modifier = Modifier
                 .fillMaxWidth(),
             trailingIcon = {
                 IconButton(
                     onClick = {
-                        viewModel.searchArticles(description.value)
+                        viewModel.searchArticles()
                     }
                 ) {
                     Icon(Icons.Default.Search, contentDescription = null)

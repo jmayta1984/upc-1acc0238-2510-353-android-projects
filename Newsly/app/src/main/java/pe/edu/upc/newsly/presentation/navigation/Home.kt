@@ -78,6 +78,7 @@ fun Home() {
             modifier = Modifier.padding(padding)
         ) {
             composable("search_articles") {
+                articleSearchViewModel.searchArticles()
                 ArticleSearchView(articleSearchViewModel) { article ->
                     selectedArticle.value = article
                     navController.navigate("news_detail")

@@ -12,9 +12,16 @@ class ArticleSearchViewModel(private val articleRepository: ArticleRepository) :
     private val _articles = MutableStateFlow<List<Article>>(emptyList())
     val articles: StateFlow<List<Article>> = _articles
 
-    fun searchArticles(description: String) {
+    private val _description = MutableStateFlow<String>("")
+    val description: StateFlow<String> = _description
+
+    fun updateDescription(description: String) {
+        _description.value = description
+    }
+
+    fun searchArticles() {
         viewModelScope.launch {
-            _articles.value = articleRepository.searchArticles(description)
+            _articles.value = articleRepository.searchArticles(_description.value)
         }
     }
 
